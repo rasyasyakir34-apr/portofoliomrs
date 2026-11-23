@@ -20,6 +20,9 @@ export const metadata: Metadata = {
   },
   description: `${site.name} is a ${site.role.toLowerCase()} based in ${site.location}. ${site.tagline.en}`,
   authors: [{ name: site.name }],
+  verification: {
+    google: "6e47901137a651c66",
+  },
   keywords: [
     "Muhammad Rasya Syakir",
     "Web Developer",
