@@ -1,0 +1,327 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0a0d1f;
+  --color-paper: #f3f5f9;
+  --color-navy: #070a1a;
+  --color-navy-soft: #0f1630;
+  --color-brand: #2f45ff;
+  --color-brand-soft: #7483ff;
+  --color-amber: #ffb21e;
+  --color-dim: #b9c0d4;
+
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --animate-marquee: marquee 42s linear infinite;
+  --animate-marquee-reverse: marquee-reverse 56s linear infinite;
+  --animate-shimmer: shimmer 3.5s linear infinite;
+  --animate-gradient-x: gradient-x 6s ease infinite;
+  --animate-bounce-soft: bounce-soft 2.4s ease-in-out infinite;
+  --animate-ping-slow: ping-slow 2.8s cubic-bezier(0,0,0.2,1) infinite;
+
+  @keyframes marquee {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(-50%, 0, 0); }
+  }
+  @keyframes marquee-reverse {
+    from { transform: translate3d(-50%, 0, 0); }
+    to   { transform: translate3d(0, 0, 0); }
+  }
+  @keyframes shimmer {
+    0%   { background-position: -200% center; }
+    100% { background-position:  200% center; }
+  }
+  @keyframes gradient-x {
+    0%, 100% { background-position: 0% 50%; }
+    50%       { background-position: 100% 50%; }
+  }
+  @keyframes bounce-soft {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-6px); }
+  }
+  @keyframes ping-slow {
+    0%   { transform: scale(1); opacity: 0.7; }
+    100% { transform: scale(2.2); opacity: 0; }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+  }
+
+  ::selection {
+    background: var(--color-brand);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+  }
+
+  /* Keep anchor targets clear of the fixed glass header. */
+  section[id] {
+    scroll-margin-top: 5.75rem;
+  }
+}
+
+/* ---------- Surfaces ---------- */
+
+.glass-dark {
+  background: color-mix(in srgb, var(--color-navy) 62%, transparent);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 18px 50px -24px rgba(0, 0, 0, 0.85),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* Line grid (kept for non-hero use) */
+.grid-lines {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-size: 72px 72px;
+  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 25%, #000 35%, transparent 78%);
+  mask-image: radial-gradient(ellipse 85% 75% at 50% 25%, #000 35%, transparent 78%);
+}
+
+/* Dot grid — aulianza.com style */
+.dot-grid {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.11) 1px, transparent 1px);
+  background-size: 28px 28px;
+  -webkit-mask-image: radial-gradient(ellipse 100% 90% at 50% 15%, #000 15%, transparent 72%);
+  mask-image: radial-gradient(ellipse 100% 90% at 50% 15%, #000 15%, transparent 72%);
+}
+
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-dim);
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---------- Reveal on scroll ---------- */
+
+@media (scripting: enabled) {
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(26px);
+    transition:
+      opacity 0.85s cubic-bezier(0.19, 1, 0.22, 1),
+      transform 0.85s cubic-bezier(0.19, 1, 0.22, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  [data-reveal][data-visible] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Keyframe helpers ---------- */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.9em, 0) rotate(1.5deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -28px, 0) scale(1.04);
+  }
+}
+
+@keyframes scroll-line {
+  0% {
+    transform: translateY(-110%);
+  }
+  55%,
+  100% {
+    transform: translateY(110%);
+  }
+}
+
+.animate-rise {
+  animation: rise 0.95s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.animate-fade-up {
+  animation: fade-up 0.9s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.animate-float-slow {
+  animation: float-slow 14s ease-in-out infinite;
+}
+
+.animate-scroll-line {
+  animation: scroll-line 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+/* ---------- New animation utilities ---------- */
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translate3d(0, 48px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translate3d(-32px, 0, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes shimmer-anim {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes bounce-soft {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.5); }
+  50%       { box-shadow: 0 0 0 7px rgba(52, 211, 153, 0); }
+}
+
+/* Animated shimmer gradient text */
+.shimmer-text {
+  background: linear-gradient(
+    120deg,
+    #ffffff 20%,
+    var(--color-brand-soft) 40%,
+    var(--color-amber) 55%,
+    var(--color-brand-soft) 70%,
+    #ffffff 80%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer-anim 5s linear infinite;
+}
+
+/* Static gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-brand-soft), var(--color-amber));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.95s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.9s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.7s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.animate-bounce-soft {
+  animation: bounce-soft 2.4s ease-in-out infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* Card hover lift */
+.card-hover {
+  transition: transform 0.45s cubic-bezier(0.19, 1, 0.22, 1),
+              box-shadow 0.45s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.35);
+}
+
+/* ---------- Aurora orb animations (aulianza-style) ---------- */
+
+@keyframes aurora-1 {
+  0%, 100% { transform: translate(0px,    0px)  scale(1);    }
+  20%       { transform: translate(45px,  -65px) scale(1.09); }
+  40%       { transform: translate(-35px,  45px) scale(0.93); }
+  60%       { transform: translate(65px,   22px) scale(1.06); }
+  80%       { transform: translate(-25px, -35px) scale(1.11); }
+}
+
+@keyframes aurora-2 {
+  0%, 100% { transform: translate(0px,    0px)  scale(1);    }
+  25%       { transform: translate(-55px,  35px) scale(1.07); }
+  50%       { transform: translate(35px,  -50px) scale(0.95); }
+  75%       { transform: translate(25px,   55px) scale(1.09); }
+}
+
+@keyframes aurora-3 {
+  0%, 100% { transform: translate(0px,   0px)  scale(1);    }
+  33%       { transform: translate(30px, -25px) scale(1.12); }
+  66%       { transform: translate(-45px, 35px) scale(0.90); }
+}
+
+.animate-aurora-1 { animation: aurora-1 22s ease-in-out infinite; }
+.animate-aurora-2 { animation: aurora-2 28s ease-in-out infinite; }
+.animate-aurora-3 { animation: aurora-3 18s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
