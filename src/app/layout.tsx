@@ -13,7 +13,7 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://rasyasyakir.dev"),
+  metadataBase: new URL("https://portofoliomrs.vercel.app"),
   title: {
     default: `${site.name} — ${site.role}`,
     template: `%s — ${site.name}`,
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "id_ID",
-    url: "https://rasyasyakir.dev",
+    url: "https://portofoliomrs.vercel.app",
     title: `${site.name} — ${site.role}`,
     description: site.tagline.en,
     siteName: site.name,
